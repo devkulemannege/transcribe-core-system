@@ -48,9 +48,13 @@ for splitStart in range(0, int(duration), 30):
         chunk = file[splitStart*1000:splitStop*1000] # split in 30 second chunks
         chunk.export(f'chunkAudio/{folder}/chunk{count}.mp3',format='mp3')
 
-chunkDir = os.listdir(f'chunkAudio/{folder}')
-for chunk in chunkDir:
-    with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary:
-        response = requests.post(server_url, files= {'file': (chunk, binary, 'audio/mpeg')})
-        print('request stat:', response.status_code)
+chunkDir = os.listdir(f'chunkAudio/{folder}') # get chunk files as a list
+
+try:
+    for chunk in chunkDir:
+        with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary: # read chunk files as binary and send to server
+            response = requests.post(server_url, files= {'file': (chunk, binary, 'audio/mpeg')})
+            print('request stat:', response.status_code)
+except Exception as e:
+    print(f'Failed to communicate with server: {e}')
     
