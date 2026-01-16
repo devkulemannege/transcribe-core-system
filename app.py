@@ -1,5 +1,7 @@
 from pydub import AudioSegment
 import yt_dlp as dlp
+from flask import Flask, jsonify
+import requests
 import os
 
 # create dir if does not exist
@@ -9,7 +11,9 @@ except Exception as e:
     print(e)
 
 # get input file path
-audioLink = input('------------------------------------\nEnter link: ')
+print('------------------------------------')
+audioLink = input('Enter link: ')
+server_url = input('Enter url: ')
 print('------------------------------------')
 
 yt_audio = {
@@ -44,5 +48,9 @@ for splitStart in range(0, int(duration), 30):
         chunk = file[splitStart*1000:splitStop*1000] # split in 30 second chunks
         chunk.export(f'chunkAudio/{folder}/chunk{count}.mp3',format='mp3')
 
-
-
+chunkDir = os.listdir(f'chunkAudio/{folder}')
+for chunk in chunkDir:
+    with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary:
+        response = requests.post(server_url, files= {'file': (chunk, binary, 'audio/mpeg')})
+        print('request stat:', response.status_code)
+    
