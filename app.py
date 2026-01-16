@@ -2,6 +2,12 @@ from pydub import AudioSegment
 import yt_dlp as dlp
 import os
 
+# create dir if does not exist
+try:
+    os.mkdir('chunkAudio')
+except Exception as e:
+    print(e)
+
 # get input file path
 audioLink = input('------------------------------------\nEnter link: ')
 print('------------------------------------')
