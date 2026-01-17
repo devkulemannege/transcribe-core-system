@@ -1,12 +1,28 @@
 from pydub import AudioSegment
 import yt_dlp as dlp
 from flask import Flask, jsonify
+import shutil
 import requests
 import os
+
+# TODO: change later
+try:
+    shutil.rmtree('audio')
+    os.mkdir('audio')
+
+    shutil.rmtree('chunkAudio')
+    os.mkdir('chunkAudio')
+except Exception as e:
+    print(f'{e}')
 
 # create dir if does not exist
 try:
     os.mkdir('chunkAudio')
+except Exception as e:
+    print(e)
+
+try:
+    os.mkdir('audio')
 except Exception as e:
     print(e)
 
@@ -54,7 +70,7 @@ try:
     for chunk in chunkDir:
         with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary: # read chunk files as binary and send to server
             response = requests.post(server_url, files= {'file': (chunk, binary, 'audio/mpeg')})
-            print('request stat:', response.status_code)
+            print(f'request stat: {response.status_code} | {response.text}')
 except Exception as e:
     print(f'Failed to communicate with server: {e}')
     
