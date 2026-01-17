@@ -5,7 +5,7 @@ import shutil
 import os
 import re
 
-''' # Remove the comment markers to automatically delete previous downloaded audio and it's chunks
+'''# Remove the comment markers to automatically delete previous downloaded audio and it's chunks
 try:
     shutil.rmtree('audio')
     os.mkdir('audio')
@@ -33,10 +33,11 @@ print('------------------------------------')
 yt_audio = {
     'format': 'bestaudio[ext=m4a]/bestaudio[ext=mp3]/bestaudio[ext=wav]/bestaudio/best',
     'ignore_expires': True,
+    'restrictfilenames': True,
     'outtmpl': 'audio/%(title)s.%(ext)s',
     'postprocessors': [{
         'key': 'FFmpegExtractAudio',
-        'preferredcodec': 'mp3',
+        'preferredcodec': 'm4a',
         'preferredquality': '192',
     }],
     'quiet': True
@@ -44,23 +45,26 @@ yt_audio = {
 
 with dlp.YoutubeDL(yt_audio) as ydl: 
     videoInfo = ydl.extract_info(audioLink, download=False) # retrieve video infomation
-    duration = videoInfo['duration'] # retreive video duration in seconds
+    vidPath = ydl.prepare_filename(videoInfo)
+    duration = videoInfo['duration'] 
+
     ydl.download([audioLink])
 
-folder = videoInfo['fulltitle']
+vidTitle = vidPath[6:] # remove "audio/" from the file path
+folder = re.sub(r'[^\w]', ' ', vidTitle) # remove symbols from folder name
 os.mkdir(f'chunkAudio/{folder}') # create folder for chunks
 
 # pydub section
-file = AudioSegment.from_mp3(f'audio/{folder}.mp3')
+file = AudioSegment.from_file(f'audio/{vidTitle}', 'm4a')
 count = 0 # variable for output filename iteration tracking (Ex: chunk1, chunk2, chunk3)
 
 for splitStart in range(0, int(duration), 5):
     for splitStop in range(splitStart+5, splitStart+10, 5):
-        # Example: 0-5, 5-10, 10-15, etc...
+        # Example: split chunks in 0-5, 5-10, 10-15, etc...
         count += 1
 
-        chunk = file[splitStart*1000:splitStop*1000] # split in 5 second chunks
-        chunk.export(f'chunkAudio/{folder}/chunk{count}.mp3',format='mp3')
+        chunk = file[splitStart*1000:splitStop*1000] 
+        chunk.export(f'chunkAudio/{folder}/chunk{count}.mp3',format='mp3') # export as mp3 files
 
 chunkDir = os.listdir(f'chunkAudio/{folder}') # get chunk files as a list
 chunkDir.sort(key=lambda var: [int(x) if x.isdigit() else x for x in re.split('([0-9]+)', var)])
