@@ -17,7 +17,7 @@ try:
 except Exception as e:
     print(f'{e}')
 
-# create dir if does not exist
+# create dir & remove transcription.txt for fresh transcription
 try:
     os.mkdir('chunkAudio')
 except Exception as e:
@@ -25,6 +25,11 @@ except Exception as e:
 
 try:
     os.mkdir('audio')
+except Exception as e:
+    print(e)
+
+try:
+    os.remove('transcription.txt')
 except Exception as e:
     print(e)
 
@@ -73,14 +78,17 @@ print(f'Chunk Files: {chunkDir}')
 try:
     for chunk in chunkDir:
         with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary: # read chunk files as binary and send to server
-            print(f'Sending {chunk} to server...')
+            print(f'------------------------------------\nSending {chunk} to server...')
 
             response = requests.post(
                 server_url, 
                 files= {'file': (chunk, binary, 'audio/mpeg')},
-                timeout=600)
+                timeout=600).json()
+
+            with open('transcription.txt','a', encoding='utf-8') as export:
+                export.write(response['reply']) # write to transcription.txt
             
-        print(f'request stat: {response.status_code} | {response.text}')
+        print(f'Transcription finished for {chunk}')
 except Exception as e:
     print(f'Failed to communicate with server: {e}')
     
