@@ -3,7 +3,9 @@ import yt_dlp as dlp
 from flask import Flask, jsonify
 import shutil
 import requests
+import time
 import os
+import re
 
 # TODO: change later
 try:
@@ -56,21 +58,29 @@ os.mkdir(f'chunkAudio/{folder}') # create folder for chunks
 file = AudioSegment.from_mp3(f'audio/{videoInfo['fulltitle']}.mp3')
 count = 0 # variable for output filename iteration tracking
 
-for splitStart in range(0, int(duration), 30):
-    for splitStop in range(splitStart+30, splitStart+60, 30):
-        # Example: 0-30, 30-60, 60-90, etc...
+for splitStart in range(0, int(duration), 5):
+    for splitStop in range(splitStart+5, splitStart+10, 5):
+        # Example: 0-5, 5-10, 10-15, etc...
         count += 1
 
         chunk = file[splitStart*1000:splitStop*1000] # split in 30 second chunks
         chunk.export(f'chunkAudio/{folder}/chunk{count}.mp3',format='mp3')
 
 chunkDir = os.listdir(f'chunkAudio/{folder}') # get chunk files as a list
+chunkDir.sort(key=lambda var: [int(x) if x.isdigit() else x for x in re.split('([0-9]+)', var)])
+print(f'Chunk Files: {chunkDir}')
 
 try:
     for chunk in chunkDir:
         with open(f'chunkAudio/{folder}/{chunk}', 'rb') as binary: # read chunk files as binary and send to server
-            response = requests.post(server_url, files= {'file': (chunk, binary, 'audio/mpeg')})
-            print(f'request stat: {response.status_code} | {response.text}')
+            print(f'Sending {chunk} to server...')
+
+            response = requests.post(
+                server_url, 
+                files= {'file': (chunk, binary, 'audio/mpeg')},
+                timeout=600)
+            
+        print(f'request stat: {response.status_code} | {response.text}')
 except Exception as e:
     print(f'Failed to communicate with server: {e}')
     
