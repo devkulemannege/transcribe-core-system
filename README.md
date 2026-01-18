@@ -26,7 +26,9 @@ The client side will be executing `app.py` Python program.
     ```
 - Run the client script.
 - The script will ask for a YouTube video Link and the Server URL. **The Server URL should be copy-pasted from Colab on to the terminal where required. Server URL is auto-generated.**
+
 → *below is a dummy URL*
+
 <img src="Assets\Screenshot 2026-01-18 163434.png" align="center"/>
 <img src="Assets\Screenshot 2026-01-18 163553.png" align="center"/>
 
