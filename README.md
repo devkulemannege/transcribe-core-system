@@ -3,7 +3,7 @@
   <img src="Assets\Vector.png" width="50" align="right" />
 </h1>
 
-**A project which contains the core system required for a basic audio transcription pipeline which uses Flask, yt-dlp and pydub.** 
+**A simple project which contains the core system required for a basic audio transcription pipeline which uses Flask, yt-dlp and pydub.** 
 
 ## Prerequisites
 - **Ngrok Authtoken** is required and can be obtained using an [Ngrok](https://ngrok.com/) account.
