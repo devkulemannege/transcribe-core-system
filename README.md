@@ -14,6 +14,7 @@
 `model_server.ipynb` is a jupyter notebook which is intended to be running in a Google Colab enviroment using a TPU or GPU runtime type.
 -  Add Ngrok Authtoken as a 'Secret' with the name "ngrok_key" in Colab. The `.ipynb` file (lines 2 - 4 in cell 2) will automatically use the Authtoken specified to authenticate the usage of the Ngrok tunnel.
 <img src="Assets\Screenshot 2026-01-18 155711.png" align="center"/>
+
 - Run all code cells in Colab using the "Run all" option to start the Flask server. 
 From here onwards the server will be listening to any transcription requests sent from a client machine.
 
@@ -28,6 +29,7 @@ The client side will be executing `app.py` Python program.
 → *below is a dummy URL*
 <img src="Assets\Screenshot 2026-01-18 163434.png" align="center"/>
 <img src="Assets\Screenshot 2026-01-18 163553.png" align="center"/>
+
 - Client side will download the YouTube video as an .m4a file, split the audio file into 5-second chunks and send them to the server for transcribing.
 
 Both the Flask server and client-side terminals will show live updates as the process is ongoing. Once process is over, the transcription will be saved in `transcription.txt` file.
