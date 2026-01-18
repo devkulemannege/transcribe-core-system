@@ -47,6 +47,7 @@ Specifications:
 Other models which supports other languages can be used with this pipeline. But some of the code within cell 1 of `model_server.ipynb` will be required to be changed (depends on model).
 
 **Example: Switching to Sinhala Transcribing...**
+
 A model from Hugging Face such as [Lingalingeswaran/whisper-small-sinhala](https://huggingface.co/Lingalingeswaran/whisper-small-sinhala) for Sinhala transcribing can be used with this pipeline.  
 The only change to be made is to add `return_timestamps=True` as an argument to `pipe()` at the following.
 ```python
