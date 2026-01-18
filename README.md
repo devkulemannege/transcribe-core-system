@@ -11,7 +11,7 @@
 
 ## Setup & Usage 
 ### 🖥️ Flask server in Colab
-`model_server.ipynb` is a jupyter notebook which is intended to be running in a Google Colab enviroment using a TPU or GPU runtime type.
+`model_server.ipynb` is a Jupyter notebook which is intended to be running in a Google Colab enviroment using a TPU or GPU runtime type.
 -  Add Ngrok Authtoken as a 'Secret' with the name "ngrok_key" in Colab. The `.ipynb` file (lines 2 - 4 in cell 2) will automatically use the Authtoken specified to authenticate the usage of the Ngrok tunnel.
 <img src="Assets\Screenshot 2026-01-18 155711.png" align="center"/>
 - Run all code cells in Colab using the "Run all" option to start the Flask server. 
