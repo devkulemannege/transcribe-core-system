@@ -38,6 +38,7 @@ Both the Flask server and client-side terminals will show live updates as the pr
 
 ## Model Information
 The model used in this solution can be found at [Hugging Face.](https://huggingface.co/jonatasgrosman/wav2vec2-large-xlsr-53-english)
+
 Specifications:
 - A fine-tuned model of Facebook's Wav2Vec2-XLSR-53 model.
 - Identificaton Language: English
