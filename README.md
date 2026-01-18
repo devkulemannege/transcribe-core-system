@@ -9,7 +9,7 @@
 - **Ngrok Authtoken** is required and can be obtained using an [Ngrok](https://ngrok.com/) account.
 - **FFmpeg** must be installed in client machine to use `yt-dlp` & `pydub`. [Click to see instructions for Windows.](https://www.geeksforgeeks.org/installation-guide/how-to-install-ffmpeg-on-windows/)
 
-## Setup & Usage 
+## Setup & Usage: `app.py` & `model_server.ipynb`
 ### 🖥️ Flask server in Colab
 `model_server.ipynb` is a jupyter notebook which is intended to be running in a Google Colab enviroment using a TPU or GPU runtime type.
 -  Add Ngrok Authtoken as a 'Secret' with the name "ngrok_key" in Colab. The `.ipynb` file (lines 2 - 4 in cell 2) will automatically use the Authtoken specified to authenticate the usage of the Ngrok tunnel.
