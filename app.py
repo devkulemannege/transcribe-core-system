@@ -5,7 +5,7 @@ import shutil
 import os
 import re
 
-'''# Remove the comment markers to automatically delete previous downloaded audio and it's chunks
+# automatically delete previous downloaded audio and it's chunks
 try:
     shutil.rmtree('audio')
     os.mkdir('audio')
@@ -13,7 +13,7 @@ try:
     shutil.rmtree('chunkAudio')
     os.mkdir('chunkAudio')
 except Exception as e:
-    print(f'{e}')'''
+    print(f'{e}')
 
 # create dir & remove transcription.txt for fresh transcription
 try:os.mkdir('chunkAudio')
@@ -51,6 +51,10 @@ with dlp.YoutubeDL(yt_audio) as ydl:
     ydl.download([audioLink])
 
 vidTitle = vidPath[6:] # remove "audio/" from the file path
+if vidTitle.endswith('.webm'): 
+    vidTitle = f'{vidTitle[:-5]}.m4a'
+else:
+    vidTitle = f'{vidTitle[:-4]}.m4a'
 folder = re.sub(r'[^\w]', ' ', vidTitle) # remove symbols from folder name
 os.mkdir(f'chunkAudio/{folder}') # create folder for chunks
 
